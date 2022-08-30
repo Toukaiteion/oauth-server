@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.security.KeyPair;
 
 @Configuration
 @EnableAuthorizationServer //开启授权服务
@@ -42,6 +43,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         security.allowFormAuthenticationForClients()
                 //允许已授权用户访问checkToken接口和获取token接口
                 .checkTokenAccess("isAuthenticated()")
+                //获取public_key的端点
                 .tokenKeyAccess("isAuthenticated()");
     }
     @Override
@@ -57,6 +59,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.accessTokenConverter(jwtAccessTokenConverter());
         endpoints.tokenStore(jwtTokenStore());
+        //用于支持密码模式
         endpoints.authenticationManager(authenticationManager).userDetailsService(myUserDetailService);
     }
 
@@ -67,7 +70,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter(){
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("jstudy");
+        //jwtAccessTokenConverter.setSigningKey("hseea@smartplatform");
+        jwtAccessTokenConverter.setKeyPair(keyPair());
         return jwtAccessTokenConverter;
+    }
+
+    @Bean
+    public KeyPair keyPair(){
+        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(new ClassPathResource("oauth.jks"), "hseeaeesh".toCharArray());
+        return factory.getKeyPair("oauth2");
     }
 }
