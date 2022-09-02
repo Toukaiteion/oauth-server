@@ -19,8 +19,6 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource
-    private MyUserDetailServiceImpl myUserDetailService;
 
 //    @Override
 //    public void configure(WebSecurity web) throws Exception {

@@ -23,8 +23,6 @@ import java.util.List;
 public class MyUserDetailServiceImpl implements UserDetailsService {
 
     @Resource
-    private PasswordEncoder passwordEncoder;
-    @Resource
     private UserMapper userMapper;
 
     /*
