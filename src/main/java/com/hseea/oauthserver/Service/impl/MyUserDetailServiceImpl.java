@@ -1,5 +1,6 @@
 package com.hseea.oauthserver.Service.impl;
 
+import com.hseea.oauthserver.entity.TokenEnhanceModel;
 import com.hseea.oauthserver.entity.UserModel;
 import com.hseea.oauthserver.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -37,8 +37,11 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
             String role = "ROLE_ADMIN";
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(role));
-            return new org.springframework.security.core.userdetails
-                    .User(userModel.getUserName(),userModel.getPassword(),authorities);
+            return new TokenEnhanceModel(userModel.getId(),
+                    userModel.getUserName(),
+                    userModel.getPassword(),
+                    userModel.getTel(),
+                    authorities);
         }
     }
 }

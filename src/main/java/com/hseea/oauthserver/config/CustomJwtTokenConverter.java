@@ -1,5 +1,6 @@
 package com.hseea.oauthserver.config;
 
+import com.hseea.oauthserver.entity.TokenEnhanceModel;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -12,9 +13,11 @@ public class CustomJwtTokenConverter extends JwtAccessTokenConverter {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication authentication){
-        Object principal = authentication.getUserAuthentication().getPrincipal();
+        TokenEnhanceModel principal = (TokenEnhanceModel)authentication.getUserAuthentication().getPrincipal();
         final Map<String, Object> additionalInformation = new HashMap<>();
-
+        additionalInformation.put("userId", principal.getUserId());
+        additionalInformation.put("username", principal.getUsername());
+        additionalInformation.put("mobile", principal.getTel());
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(additionalInformation);
         return super.enhance(oAuth2AccessToken, authentication);
     }

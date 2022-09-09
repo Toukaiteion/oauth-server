@@ -7,8 +7,9 @@
         <id property="id" column="id"/>
         <result property="userName" column="user_name"/>
         <result property="password" column="password"/>
+        <result property="tel" column="tel"/>
     </resultMap>
     <select id="findUserByName" resultMap="userMap">
-        select id,user_name,password from user where user_name = #{username}
+        select id,user_name,password,tel from `user` where user_name = #{username}
     </select>
 </mapper>
