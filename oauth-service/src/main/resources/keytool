@@ -1,0 +1,18 @@
+#生成keypair
+keytool -genkeypair -alias oauth2 -keyalg RSA -keypass hseeaeesh -keystore oauth.jks -storepass hseeaeesh -validity 3650
+
+#提取公钥
+keytool -list -rfc --keystore oauth.jks | openssl x509 -inform pem -pubkey
+
+#生成公钥证书
+keytool -list -rfc --keystore oauth.jks | openssl x509 -inform pem -pubkey -out certificate.crt > oauth_public.crt
+
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjeC9zmKr0w6ItTwFWpl4
+r4n9l9VxrbJRmfwKCUN2s/PJKnTlp/Ed0Q+n90JuGK/V3V6bxypu19hjHys4KwQQ
+A7T5osQJGqbXgy+OwNp+EacbRhw1rLt5p2D/tM1Kp9Myx/GAA6YnU0n4ycDD1UGG
+6syMWFoG0Uo0l6sIeHfEqlzJNhLLATXuyWVHqMGfMQn8Oq4wPQaQTSMuYkkD/K7X
+zgF2pmFmiU8n9Uew2oOJTbD1sIziGmYeGB0OMy7zkjuexvqDT9wvZhFZ7uf+Cq5U
+9M7YVVJOZdoFN/zgYykvNXiDpLQZlCi1a6G7pPgeyEDvuxk3dTZ4gDoHixgThMc5
+cQIDAQAB
+-----END PUBLIC KEY-----
